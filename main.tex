@@ -1,0 +1,219 @@
+\documentclass[a4paper]{amsart}
+ 
+\newtheorem{deff}{Definition}
+\newtheorem{prop}{Proposition}
+\newtheorem{lem}{Lemma}
+\newtheorem{thm}{Theorem}
+\newtheorem*{notation}{Notation}
+
+\usepackage{mathrsfs}
+
+
+\newcommand{\pow}[1]{\mathscr{P}\left(#1\right)}
+\newcommand{\pair}[2]{\langle #1, #2\rangle}
+\newcommand{\sig}[1]{\mathfrak{Sig}\left(#1\right)}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\convg}{\uparrow}
+
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+\begin{document}
+	
+\author{Mihail Mladenov}
+\title{Probability scribbles}
+\date{\today}
+ 	
+\begin{abstract}
+    This text is intended to condense my own knowledge in probability theory and is not optimized for reading by other people. The main goal is for me to gain understanding of some simple facts in probability theory.
+\end{abstract}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Preface}
+
+Throughout this text the $ZFC$ axioms are assumed and 
+first-order predicate logic is used as meta-language. Many 
+results in set theory and topology will be used without 
+providing proof. Throughout this book the formal language is 
+freely mixed with informal/abusive/bad/hand-wavy English 
+and symbolic notation. Although the goal has been to 
+minimize hand-wavy bullshit there's still a lot of crap. 
+
+Since this is not intended to be directly read by other people 
+there's no need to clarify a lot of the notation used (which is fairly standard),
+except in the cases where there's danger that I might forget 
+what I meant by using that notation in which case 
+explanation should be provided.
+
+The definition-theorem-proof style is used in writing this text.
+
+
+\section{Measure Theory Basics}
+
+\subsection{Measurable spaces}
+
+\begin{deff}
+    Let $F$ be a set. A nonempty set $\mathcal{F} \subseteq 
+    \pow{E}$ is called $\sigma$-algebra over $F$ if
+    
+    \begin{itemize}
+        \item $\left(\forall A \in \mathcal{F}\right)  \left( F 
+        \setminus B \in \mathcal{F} \right)$
+        \item $\left(\forall A \in \mathcal{F}^\NN\right) \left( 
+        \bigcup\limits_{n\in \NN} A_n \in \mathcal{F} \right) $   
+        \footnote{We will often write $A_n$ instead of $A(n)$ 
+        for $n \in \NN$}
+    \end{itemize}
+\end{deff}
+
+\begin{prop}
+    If $\mathcal{F}$ is $\sigma$-algebra over $F$, then $\emptyset \in \mathcal{F}$ and
+    $F \in \mathcal{F}$.
+\end{prop}
+
+\begin{proof}
+    Since $\mathcal{F}$ is $\sigma$-algebra it's nonempty. 
+    Now let $A \in \mathcal{F}$ then it's true that 
+    $ F = A \bigcup \left(F \setminus A\right) \in \mathcal{F}$ 
+    and $\emptyset = F \setminus F \in \mathcal{F}$. 
+\end{proof}
+
+\begin{deff}
+    We say that a sequence $A \in \mathcal{F}^\NN$  is increasing with limit $A_\infty$ (denoted by $A \convg A_\infty$) if
+    \begin{itemize}
+        \item $\left( \forall n \in \NN\right) \left( A_n \subseteq A_{n+1} \right)$
+        \item $\bigcup\limits_{n\in \NN} A_n = A_\infty$
+    \end{itemize}
+\end{deff}
+
+\begin{deff}
+    If $F$ is a set we denote the set of all $\sigma$-algebras over $F$ by $\sig{F}$.
+\end{deff}
+\begin{deff}
+    The ordered pair $\pair{F}{\mathcal{F}}$ is called measurable space if $\mathcal{F} \in \sig{F}$.
+\end{deff}
+
+\begin{deff}
+    Let $F$ be a set. A set $\mathcal{F} \subseteq \pow{E}$ is called $d$-system over $F$ if 
+    \begin{itemize}
+        \item $ F \in \mathcal{F}$
+        \item $\left(\forall A \in \mathcal{F}\right) \left(\forall B \in \mathcal{F}\right)
+        \left( A \subseteq B \Longrightarrow B \setminus A \in \mathcal{F} \right)$
+        \item $\left(\forall A \in \mathcal{F}^\NN \right) \left( A \convg A_\infty \Longrightarrow A_\infty \in \mathcal{F} \right)$
+    \end{itemize}
+\end{deff}
+
+\begin{deff}
+    Let $F$ be a set. A set $\mathcal{F} \subseteq \pow{E}$ is 
+    called $\pi$-system over $F$ if 
+    
+    $$ \left(\forall A \in \mathcal{F}\right) \left(\forall B \in 
+    \mathcal{F}\right) \left( A \cap B \in \mathcal{F}\right) $$
+\end{deff}
+
+\begin{prop}
+    Let $F$ be a set. A set $\mathcal{F} \subseteq \pow{E}$ is 
+    $\sigma$-algebra over $F$ if and only if it's both $\pi$ and 
+    $d$ system.
+\end{prop}
+
+\begin{proof}
+    Assuming that $\mathcal{F}$ is $\sigma$-algebra over $F$,
+    we can immediately infer that it's $\pi$ system using the 
+    countable union property and the complement property of 
+    the $\sigma$-algebra together with De Morgan's law. It's 
+    also immediate that it's $d$ system.
+    
+    Now assume that $\mathcal{F}$ is $\pi$ and $d$ system. We have that $F \in \mathcal{F}$
+    and since
+    $$\left(\forall A \in \mathcal{F}\right) \left(\forall B \in \mathcal{F}\right)
+    \left( A \subseteq B \Longrightarrow B \setminus A \in\mathcal{F} \right)$$
+    we have that
+    $$\left(\forall B \in \mathcal{F}\right)  \left( F \setminus B \in \mathcal{F} \right)$$
+    Now let $S\in \mathcal{F}^\NN$ be a sequence. 
+    Since a $\pi$ system is closed under intersection and 
+    furthermore we've proven that 
+    $\mathcal{F}$ is closed under complements it's also 
+    closed under finite number of unions using De Morgan's 
+    law and trivial induction. Now we construct the sequence $\tilde{S}\in \mathcal{F}^\NN$
+    $$
+    \tilde{S}_n := \bigcup\limits_{k\in (n + 1)} S_k
+    $$
+    Now we have that 
+    $ \left(\forall n \in \NN\right) \left( \tilde{S}_n  \subseteq \tilde{S}_{n+1} \right)$
+    and so it follows that
+    $\bigcup\limits_{n\in \NN} \tilde{S}_n \in \mathcal{F}$.
+    On the other hand we have
+    $$
+    \mathcal{F} \ni \bigcup\limits_{n\in \NN} \tilde{S}_n = \bigcup\limits_{n\in \NN} S_n 
+    $$
+    From the things proven so far we can conclude that $\mathcal{F}$ is $\sigma$-algebra.
+\end{proof}
+
+\begin{prop}
+    Let $F$ be a set. Let $\mathfrak{F} \subseteq \pow{\pow{F}}$ be collection of $\sigma$-algebras over $F$. Then the intersection of this collection $\bigcap \mathfrak{F}$ is again $\sigma$-algebra.
+\end{prop}
+
+\begin{proof}
+    Let $A \in \bigcap \mathfrak{F}$. From this we can conclude that 
+    $\left(\forall \mathcal{F} \in \mathfrak{F}\right) \left(A \in \mathcal{F}\right) $ and since all of them are $\sigma$-algebras we have $\left(\forall \mathcal{F} \in \mathfrak{F}\right) \left(F \setminus A \in \mathcal{F}\right)$ from which we immediately conclude that $F \setminus A \in \bigcap \mathfrak{F}$.
+    
+    Now let $S \in \left(\bigcap\mathfrak{F}\right)^\NN$ be a sequence in $\bigcap\mathfrak{F}$. Since for every $\mathcal{F} \in \mathfrak{F}$ we have that $\bigcap\mathfrak{F} \subseteq \mathcal{F}$ it follows that $S$ is sequence in every $\mathcal{F}$. From this we conclude that $\bigcup\limits_{n\in \NN} S_n \in \mathcal{F}$ for every $\mathcal{F}$ since it's $\sigma$-algebra. But then  $ \bigcup\limits_{n\in \NN} S_n \in  \bigcap \mathfrak{F}$.
+\end{proof}
+
+\begin{deff}
+    Let $F$ be a set and $\mathcal{C} \subseteq \pow{F}$. We define the $\sigma$-algebra generated by $\mathcal{C}$, denoted by $\sigma\mathcal{C}$ to be the set
+    $$
+    \sigma\mathcal{C} := \bigcap\left\{ \mathcal{F} \in \sig{F} \mid \mathcal{C} \subseteq \mathcal{F} \right\}
+    $$
+\end{deff}
+
+\begin{lem}
+    Let $\mathcal{D}$ be a $d$-system on $F$ and pick $D \in \mathcal{D}$. The set 
+    $$ \mathcal{D}_D := \left\{ X \in \mathcal{D} \mid X \cap D \in \mathcal{D} \right\} $$
+    is also $d$-system on $F$.
+\end{lem}
+
+\begin{proof}
+    Since $\mathcal{D}$ is a $d$-sysyem 
+    $F \in \mathcal{D}$ and since $F \cap D = D \in \mathcal{D}$ 
+    then $F \in \mathcal{D}_D$. 
+    
+    Now let $X,Y \in \mathcal{D}_D$ and $X \subseteq Y$.
+    Since $X \cap D$ and $Y \cap D$ are in $\mathcal{D}$ we have that 
+    $ \left(Y \cap D\right) \setminus \left(X \cap D\right) \in \mathcal{D}$. 
+    Now let $z \in  \left(Y \cap D\right) \setminus \left(X \cap D\right)$. 
+    We have that $z \in Y \cap D$ and $z \notin X \cap D$. 
+    From here $z \in Y$ and $z \in D$ and $z \notin X$ hence $z \in \left(Y \setminus X\right) \cap D$ and so
+    $
+    \left(Y\cap D\right) \setminus \left(X\cap D\right) \subseteq  \left(Y \setminus X\right) \cap D
+    $. If $w \in \left(Y \setminus X\right) \cap D $ then 
+    $w \in D$ and $w \in Y$ and $w \notin X$. From here follows that $w \in \left(Y \cap D\right) \setminus X$
+    and so $w  \in \left(Y \cap D\right) \setminus \left(X \cap D \right)$.
+    This proves that $ \left(Y \setminus X\right) \cap D  \subseteq\left(Y \cap D\right) \setminus \left(X \cap D \right)$.
+    From these inclusions we can conclude that 
+    $\left(Y \setminus X\right) \cap D  = \left(Y \cap D\right) \setminus \left(X \cap D \right)$.
+    Now $\left(Y \setminus X\right) \cap D  \in \mathcal{D}$ and so $Y \setminus X \in \mathcal{D}_D$.
+    
+    Let $A \in \mathcal{D}_D^\NN$ be a sequence and $A \convg A_\infty$.
+    Since for all $n$ it's true that $A_n \in \mathcal{D}_D$ we have that $A_n \cap D \in \mathcal{D}$.
+    Now since $\mathcal{D}$ is $d$-system 
+    $$ A_\infty \cap D = \left(\bigcup\limits_{k \in \NN} A_n\right) \cap D = \bigcup\limits_{k \in \NN} \left(A_n \cap D\right) \in \mathcal{D}$$
+    From this we conclude that $A_\infty \in \mathcal{D}_D$.
+\end{proof}
+
+
+\subsection{Measurable functions}
+
+\subsection{Measure spaces}
+
+\subsection{Integration}
+
+\section{Basic Probability}
+
+\subsection{Probability spaces}
+
+\end{document}
