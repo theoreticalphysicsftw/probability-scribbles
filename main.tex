@@ -10,6 +10,7 @@
 
 
 \newcommand{\pow}[1]{\mathscr{P}\left(#1\right)}
+\newcommand{\borr}[2]{\mathscr{B}_{#1}\left(#2\right)}
 \newcommand{\bor}[1]{\mathscr{B}\left(#1\right)}
 \newcommand{\pair}[2]{\langle #1, #2\rangle}
 \newcommand{\sig}[1]{\mathfrak{Sig}\left(#1\right)}
@@ -45,7 +46,7 @@ minimize hand-wavy bullshit there's still a lot of crap.
 
 Since this is not intended to be directly read by other people 
 there's no need to clarify a lot of the notation used (which is fairly standard),
-except in the cases where there's danger that I might forget 
+except in the cases where there's serious danger that I might forget 
 what I meant by using that notation in which case 
 explanation should be provided.
 
@@ -259,13 +260,106 @@ The definition-theorem-proof style is used in writing this text.
 
 
 \begin{deff}
-If $\pair{E}{\mathcal{E}}$ and $\pair{F}{\mathcal{F}}$ are 
-measurable spaces, then a map $f : E \longrightarrow F$ is 
-said to be measurable with respect to $\mathcal{E}$ and $\mathcal{F}$ if 
-$$
-\left(\forall X \in \mathcal{F}\right) \left( f^{-1}[X] \in \mathcal{F} \right)
-$$
+    If $\pair{E}{\mathcal{E}}$ and $\pair{F}{\mathcal{F}}$ are 
+    measurable spaces, then a map $f : E \longrightarrow F$ is 
+    said to be measurable with respect to $\mathcal{E}$ and $\mathcal{F}$ if 
+    $$
+    \left(\forall X \in \mathcal{F}\right) \left( f^{-1}[X] \in \mathcal{F} \right)
+    $$
 \end{deff}
+
+\begin{prop}
+    Let $\pair{E}{\mathcal{E}}$, $\pair{F}{\mathcal{F}}$ and
+    $\pair{G}{\mathcal{G}}$ be measurable spaces. If the functions $f : E \longrightarrow F$ and
+    $g: F \longrightarrow G$ are measurable then $g \circ f$ is 
+    measurable as well.
+\end{prop}
+
+\begin{proof}
+    Let's pick $X \in \mathcal{G}$. We have that $ g^{-1}[X] \in \mathcal{F}$ since $g$ is measurable. Then $f^{-1}[g^{-1}[X] ] \in \mathcal{E}$ 
+    because $f$ is measurable. Now we 
+    can conclude that $g \circ f$ is measurable by noticing 
+    that
+    $$
+    \left(g \circ f\right)^{-1}[X] = f^{-1}[g^{-1}[X] ] \in \mathcal{E}
+    $$
+\end{proof}
+
+\begin{prop}
+    Let  $\pair{E}{\mathcal{E}}$ and $\pair{F}{\mathcal{F}}$ be 
+    measurable spaces and let $\mathcal{F}_0$ be such that
+    $\sigma\mathcal{F}_0 = \mathcal{F}$. Under these 
+    circumstances a function $f : E \longrightarrow F$ is
+    measurable if and only if 
+    $$
+    \left( \forall X \in \mathcal{F}_0\right)
+    \left( f^{-1}[X] \in \mathcal{E}\right)
+    $$
+\end{prop}
+
+\begin{proof}
+    It's immediate that if $f$ is measurable than the condition 
+    is satisfied as a special case.
+    
+    Now let's assume that $f$ satisfies the condition. We define the set
+    $$
+    \mathcal{F}_* := \left\{ X \in \mathcal{F} \mid  f^{-1}[X] \in \mathcal{E} \right\}
+    $$
+    The goal is to show that $\mathcal{F}_*$ is
+    $\sigma$-algebra, because since it contains $\mathcal{F}_0$ 
+    then it contains $\sigma\mathcal{F}_0 = \mathcal{F}$ and 
+    and since it is contained in $\mathcal{F}$ they coincide, 
+    proving the proposition.
+    
+    Firstly let $X \in \mathcal{F}_*$. Since $f^{-1}[X] \in \mathcal{E}$
+    and $\mathcal{E}$ is $\sigma$-algebra can conclude  that the following holds
+    $$
+    f^{-1}[F\setminus X] = f^{-1}[F] \setminus f^{-1}[X] = E \setminus f^{-1}[X] \in \mathcal{E}
+    $$
+    which implies that $F\setminus X\in \mathcal{F}_*$.
+    
+    Now let's pick a sequence $S \in \mathcal{F}_*^\NN$ then
+    $$
+    f^{-1}\left[ \bigcup\limits_{n \in \NN} S_n \right] = 
+    \bigcup\limits_{n \in \NN} f^{-1}[S_n] \in \mathcal{E}
+    $$
+    since $\left(n \in \NN \right) \left(f^{-1}[S_n] \in \mathcal{E}\right)$ and 
+    $\mathcal{E}$ is $\sigma$-algebra. From this we can conclude
+    that $\bigcup\limits_{n \in \NN} S_n \in \mathcal{F}_*$
+    which demonstrates that $\mathcal{F}_*$ is $\sigma$-algebra.
+\end{proof}
+
+
+
+\begin{deff}
+    Let $\pair{T}{\mathcal{O}}$ be a topological space, then 
+    $\sigma\mathcal{O}$ is called the Borel $\sigma$ algebra 
+    of $T$ with respect to $\mathcal{O}$ and we denote it by 
+    $\borr{\mathcal{O}}{T}$.
+\end{deff}
+
+By abuse of notation we will often write $\bor{T}$ and infer 
+the topology from the context.
+
+\begin{prop}
+    Let $\pair{T}{\mathcal{O}}$ and $\pair{\tilde{T}}{\tilde{\mathcal{O}}}$ be topological spaces. 
+    If $f : T \longrightarrow \tilde{T}$ is continuous with 
+    respect to $\mathcal{O}$ and $\tilde{\mathcal{O}}$ then 
+    it's measurable with respect to $\bor{T}$ and $
+    \bor{\tilde{T}}$.
+\end{prop}
+
+\begin{proof}
+    Since $f$ is continuous for every open set $O \in 
+    \tilde{\mathcal{O}}$  we have
+    $$
+    f^{-1}[O] \in \mathcal{O} \subseteq \sigma\mathcal{O} 
+    = \bor{T}
+    $$
+    which proves the result by using the previous proposition.
+\end{proof}
+
+
 
 \subsection{Measure spaces}
 
